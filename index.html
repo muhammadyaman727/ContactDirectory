@@ -217,4 +217,22 @@ document.addEventListener('click',e=>{if(e.target.matches('dialog'))return e.tar
 mode:()=>{S.m=t.dataset.m;lsSet(PF,{...lsGet(PF,{}),m:S.m});render()},clear:()=>{S.q='';S.f='all';$('#q').value='';$('#f').value='all';render()}})[a]?.()});
 (async()=>{$$('[data-i]').forEach(e=>e.innerHTML=ic(e.dataset.i));const pf=lsGet(PF,{});if(pf.m)S.m=pf.m;if(pf.t)document.documentElement.dataset.theme=pf.t;themeIc();
 C=lsGet(LS,[]);if(!Array.isArray(C))C=[];db=await idb();await Promise.all(C.map(async c=>{const d=await tx('readonly',s=>s.get(c.id));if(d)IM[c.id]=d}));go('dash')})();
-</script></body></html>
+</script></body></html>Marking a contact as personal
+
+The add and edit form has a new “Personal contact” checkbox.
+When personal contacts are visible, those cards show a small lock “Personal” tag.
+
+Locking and unlocking
+
+First click: you set a password (at least 4 characters, entered twice). Personal contacts are hidden straight away.
+While locked: the button changes to Show personal, and clicking it asks for the password. Hidden contacts disappear from the stats, recent list, search results and duplicate-number warnings. A personal contact you save while locked is hidden immediately, and a message tells you so.
+While unlocked: one click hides them again with no password needed.
+After a reload: the page opens locked.
+Changing the password: this is in the Backup & data dialog and only appears while you’re unlocked.
+
+Backup and clear-all
+
+While locked, exports and “Clear all contacts” only cover the contacts you can see.
+JSON exports keep the personal flag, and imports restore it.
+
+How secure it is: this hides personal contacts from anyone using the page, but it doesn’t encrypt them. Someone with technical skill could still read the browser’s stored data. The password is saved as a salted hash and can’t be recovered if you forget it.
