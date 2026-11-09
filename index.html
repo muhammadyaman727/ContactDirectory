@@ -81,6 +81,8 @@ footer{margin-top:56px;padding:26px 0;border-top:1px solid var(--bd);color:var(-
 .qs{margin-top:28px;max-width:640px;border:1px solid var(--bd);border-radius:999px;padding:7px 7px 7px 20px;box-shadow:var(--sh);transition:.2s}.qs:focus-within{border-color:var(--ac);box-shadow:0 0 0 4px color-mix(in srgb,var(--ac) 16%,transparent)}.qs .b.pri{border-radius:999px;padding:10px 20px}
 .sw .in{border-radius:999px;padding:12px 18px 12px 46px;box-shadow:var(--sh)}.sw .ic{left:18px}.tb select.in{border-radius:999px;padding:12px 16px}
 .stat,.card{box-shadow:none;border-radius:16px}.card:hover{box-shadow:var(--sh)}.si{background:var(--bg);color:var(--mu);border-radius:10px}.av{box-shadow:none}.sh h2{font-size:18px}
+.tag{display:inline-flex;align-items:center;gap:4px;margin-left:8px;padding:2px 8px;border-radius:999px;background:var(--acs);color:var(--ac);font-size:11px;font-weight:600;line-height:1.6;vertical-align:middle}.tag .ic{width:12px;height:12px}.chk{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--bd);border-radius:12px;cursor:pointer}.chk input{margin-top:4px;accent-color:var(--ac)}.chk span{font-weight:600;font-size:14px}.chk small{display:block;font-weight:400;color:var(--mu);font-size:12.5px}
+.pin{text-align:center;letter-spacing:.6em;font-size:22px;font-weight:600;padding:12px 8px 12px calc(8px + .6em)}.lh{display:flex;align-items:center;justify-content:space-between;margin-top:34px}.lh h2{font-size:22px;letter-spacing:-.02em}.lh+.tb{margin-top:16px}.set{align-items:center;margin-bottom:10px}.set>div{flex:1}.set b{font-size:14.5px}.set .b{margin-left:auto}
 main{padding-bottom:104px}
 .fab{position:fixed;right:22px;bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:25;width:56px;height:56px;border-radius:50%;border:0;background:var(--ac);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 26px -8px color-mix(in srgb,var(--ac) 75%,#000),0 2px 6px rgba(0,0,0,.18);transition:.2s}.fab:hover{transform:scale(1.07)}.fab:active{transform:scale(.95)}.fab .ic{width:24px;height:24px;stroke-width:2.2}
 #toasts{left:50%;right:auto;translate:-50% 0;align-items:center;bottom:calc(24px + env(safe-area-inset-bottom,0px))}
@@ -88,10 +90,11 @@ main{padding-bottom:104px}
 </style></head><body>
 <header class="top"><div class="wrap bar">
 <div class="brand"><span class="logo" data-i="users"></span>Directory</div>
-<nav class="tabs"><button class="b tab" data-a="go" data-v="dash">Dashboard</button><button class="b tab" data-a="go" data-v="list">Contacts</button></nav>
+<nav class="tabs"><button class="b tab" data-a="go" data-v="dash">Dashboard</button><button class="b tab" data-a="go" data-v="list">Contacts</button><button class="b tab" data-a="go" data-v="priv">Private</button></nav>
 <div class="sp"></div>
+
 <button class="b ghost" id="th" aria-label="Toggle theme"></button>
-<button class="b ghost" data-a="data" aria-label="Backup and data" title="Backup &amp; data"><span data-i="db"></span></button>
+<button class="b ghost" data-a="settings" aria-label="Settings" title="Settings"><span data-i="cog"></span></button>
 
 </div></header>
 
@@ -105,6 +108,7 @@ main{padding-bottom:104px}
 </section>
 
 <section id="list" hidden>
+<div class="lh"><h2 id="lt">Contacts</h2><button class="b sm" id="lockNow" data-a="lockp" hidden><span data-i="lock"></span>Lock now</button></div>
 <div class="tb">
 <div class="sw"><span data-i="search"></span><input class="in" id="q" placeholder="Search name, number or address…" aria-label="Search contacts"></div>
 <select class="in" id="f" aria-label="Filter"><option value="all">All contacts</option><option value="img">With profile image</option><option value="noimg">Without profile image</option><option value="recent">Added in last 7 days</option></select>
@@ -117,7 +121,7 @@ main{padding-bottom:104px}
 </main>
 <footer><div class="wrap">Your data never leaves this browser. Contacts live in Local Storage and photos in IndexedDB.</div></footer>
 
-<nav class="bn"><button data-a="go" data-v="dash"><span data-i="home"></span>Home</button><button data-a="go" data-v="list"><span data-i="users"></span>Contacts</button></nav>
+<nav class="bn"><button data-a="go" data-v="dash"><span data-i="home"></span>Home</button><button data-a="go" data-v="list"><span data-i="users"></span>Contacts</button><button data-a="go" data-v="priv"><span data-i="lock"></span>Private</button></nav>
 <button class="fab" data-a="add" aria-label="Add new contact" title="Add new contact"><span data-i="plus"></span></button>
 <div id="toasts" aria-live="polite"></div>
 
@@ -128,21 +132,32 @@ main{padding-bottom:104px}
 <div class="warn" id="dup" hidden></div>
 <div class="fld"><label for="fa">Complete address</label><textarea class="in" id="fa" maxlength="240"></textarea></div>
 <div class="fld"><label for="fo">Notes (optional)</label><textarea class="in" id="fo" maxlength="500"></textarea></div>
+<label class="chk"><input type="checkbox" id="fpr"><span>Private contact<small>Kept in the Private section, protected by your PIN</small></span></label>
 <div class="df"><button type="button" class="b" data-a="close">Cancel</button><button class="b pri" id="sv">Save contact</button></div></div></form></dialog>
 
 <dialog id="dm"><div class="dh"><h2>Contact details</h2><button class="b ghost sm" data-a="close" aria-label="Close"><span data-i="x"></span></button></div><div class="db det" id="dc"></div></dialog>
 
 <dialog id="cm"><div class="db"><h2 id="ct"></h2><p class="mu" id="cp" style="font-size:14px"></p><div class="df"><button class="b" data-a="close">Cancel</button><button class="b pri" id="cy" style="background:var(--dg)"></button></div></div></dialog>
 
+<dialog id="sm"><div class="dh"><h2>Settings</h2><button class="b ghost sm" data-a="close" aria-label="Close"><span data-i="x"></span></button></div><div class="db">
+<div class="rw set"><span data-i="lock"></span><div><b>Private PIN</b><small>5-digit PIN that protects the Private section</small></div><button class="b sm" id="cpb" data-a="chpin"></button></div>
+<div class="rw set"><span data-i="db"></span><div><b>Backup &amp; data</b><small>Export, import or clear contacts</small></div><button class="b sm" data-a="data">Open</button></div></div></dialog>
+<dialog id="pm"><form id="pf" novalidate><div class="dh"><h2 id="pt"></h2><button type="button" class="b ghost sm" data-a="close" aria-label="Close"><span data-i="x"></span></button></div><div class="db"><p class="mu" id="pd" style="margin:0 0 14px"></p>
+<div class="fld" id="p0w" hidden><label for="p0">Current PIN</label><input class="in pin" id="p0" type="password" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="•••••"></div>
+<div class="fld"><label for="p1" id="l1">PIN</label><input class="in pin" id="p1" type="password" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="•••••"></div>
+<div class="fld" id="p2w"><label for="p2">Confirm PIN</label><input class="in pin" id="p2" type="password" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="•••••"></div>
+<div class="er" id="pe"></div>
+<div class="df"><button type="button" class="b" data-a="close">Cancel</button><button class="b pri" id="pb"></button></div></div></form></dialog>
 <dialog id="mm"><div class="dh"><h2>Backup &amp; data</h2><button class="b ghost sm" data-a="close" aria-label="Close"><span data-i="x"></span></button></div><div class="db">
 <div class="dgrid"><button class="b" id="xj"><span data-i="download"></span>Export JSON</button><button class="b" id="xc"><span data-i="download"></span>Export CSV</button><label class="b" for="imf"><span data-i="upload"></span>Import JSON file</label><input id="imf" type="file" accept=".json,application/json" hidden><button class="b" id="xi">Import pasted JSON</button></div>
 <textarea class="in" id="io" placeholder="Exports appear here so you can copy them. Paste a JSON backup here to import it." spellcheck="false"></textarea>
 <div class="mu" id="st"></div>
+
 <div class="df" style="justify-content:space-between"><button class="b" id="cp2">Copy</button><button class="b dg" id="ca"><span data-i="trash"></span>Clear all contacts</button></div></div></dialog>
 
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const P={search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',plus:'<path d="M5 12h14M12 5v14"/>',edit:'<path d="M17 3a2.8 2.8 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',trash:'<path d="M3 6h18M19 6l-1 14H6L5 6M8 6V4h8v2"/>',eye:'<path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',pin:'<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/>',users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>',list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',upload:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>',x:'<path d="M18 6 6 18M6 6l12 12"/>',home:'<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9 22V12h6v10"/>',db:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/>',check:'<path d="M20 6 9 17l-5-5"/>'};
+const P={search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',plus:'<path d="M5 12h14M12 5v14"/>',edit:'<path d="M17 3a2.8 2.8 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',trash:'<path d="M3 6h18M19 6l-1 14H6L5 6M8 6V4h8v2"/>',eye:'<path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',pin:'<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/>',users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>',list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',upload:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>',x:'<path d="M18 6 6 18M6 6l12 12"/>',home:'<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9 22V12h6v10"/>',db:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/>',check:'<path d="M20 6 9 17l-5-5"/>',lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',unlock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>',cog:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>'};
 const ic=n=>`<svg class="ic" viewBox="0 0 24 24">${P[n]}</svg>`;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
@@ -159,24 +174,24 @@ const hue=n=>[...n].reduce((a,c)=>a+c.charCodeAt(0),0)*7%360;
 const av=(c,x='')=>IM[c.id]?`<img class="av ${x}" src="${IM[c.id]}" alt="${esc(c.name)}">`:`<div class="av ${x}" style="--h:${hue(c.name)}">${esc(ini(c.name))}</div>`;
 const fmt=t=>new Date(t).toLocaleDateString(undefined,{dateStyle:'medium'});
 function toast(m,t='ok'){if($('#mm').open)$('#st').textContent=m;const e=document.createElement('div');e.className='toast '+t;e.innerHTML=ic(t=='ok'?'check':'x')+`<span>${esc(m)}</span>`;$('#toasts').append(e);setTimeout(()=>{e.classList.add('out');setTimeout(()=>e.remove(),300)},3200)}
-const card=c=>`<article class="card" data-id="${c.id}">${av(c)}<div class="info"><h3>${esc(c.name)}</h3><p>${ic('phone')}<span>${esc(c.phone)}</span></p><p>${ic('pin')}<span>${esc(c.address||'No address added')}</span></p></div><div class="btns"><button class="b sm" data-a="view">${ic('eye')}View Details</button><button class="b sm ghost" data-a="edit" aria-label="Edit ${esc(c.name)}">${ic('edit')}</button><button class="b sm ghost dg" data-a="del" aria-label="Delete ${esc(c.name)}">${ic('trash')}</button></div></article>`;
-function view(){const q=S.q.trim().toLowerCase(),d=dig(q);let r=C.filter(c=>!q||c.name.toLowerCase().includes(q)||c.address.toLowerCase().includes(q)||c.phone.toLowerCase().includes(q)||(d&&dig(c.phone).includes(d)));
+const card=c=>`<article class="card" data-id="${c.id}">${av(c)}<div class="info"><h3>${esc(c.name)}${c.personal?`<span class="tag">${ic('lock')}Personal</span>`:''}</h3><p>${ic('phone')}<span>${esc(c.phone)}</span></p><p>${ic('pin')}<span>${esc(c.address||'No address added')}</span></p></div><div class="btns"><button class="b sm" data-a="view">${ic('eye')}View Details</button><button class="b sm ghost" data-a="edit" aria-label="Edit ${esc(c.name)}">${ic('edit')}</button><button class="b sm ghost dg" data-a="del" aria-label="Delete ${esc(c.name)}">${ic('trash')}</button></div></article>`;
+function view(){const q=S.q.trim().toLowerCase(),d=dig(q);let r=C.filter(c=>S.v=='priv'?c.personal:!c.personal).filter(c=>!q||c.name.toLowerCase().includes(q)||c.address.toLowerCase().includes(q)||c.phone.toLowerCase().includes(q)||(d&&dig(c.phone).includes(d)));
 if(S.f=='img')r=r.filter(c=>IM[c.id]);if(S.f=='noimg')r=r.filter(c=>!IM[c.id]);if(S.f=='recent')r=r.filter(c=>Date.now()-c.created<WK);
 return r.sort({az:(a,b)=>a.name.localeCompare(b.name),za:(a,b)=>b.name.localeCompare(a.name),new:(a,b)=>b.created-a.created,old:(a,b)=>a.created-b.created}[S.s])}
 const empty=(i,t,p,b)=>`<div class="empty"><div class="si">${ic(i)}</div><h3>${t}</h3><p>${p}</p>${b}</div>`;
-function render(){const n=C.length,w=C.filter(c=>IM[c.id]).length,rc=C.filter(c=>Date.now()-c.created<WK).length;
+function render(){const V=C.filter(c=>!c.personal),n=V.length,tot=S.v=='priv'?C.filter(c=>c.personal).length:n,w=V.filter(c=>IM[c.id]).length,rc=V.filter(c=>Date.now()-c.created<WK).length;
 $('#stats').innerHTML=[['users','Total Contacts',n],['clock','Recently Added',rc],['image','With Profile Images',w],['user','Without Images',n-w]].map(([i,l,v])=>`<div class="stat"><span class="si">${ic(i)}</span><div><b>${v}</b><small>${l}</small></div></div>`).join('');
 const add=`<button class="b pri" data-a="add">${ic('plus')}Add New Contact</button>`;
-$('#recent').innerHTML=n?[...C].sort((a,b)=>b.created-a.created).slice(0,4).map(card).join(''):empty('users','No contacts yet','Add your first contact to start building your directory.',add);
+$('#recent').innerHTML=n?[...V].sort((a,b)=>b.created-a.created).slice(0,4).map(card).join(''):empty('users','No contacts yet','Add your first contact to start building your directory.',add);
 const r=view();$('#cards').className='cards '+S.m;
-$('#cards').innerHTML=r.length?r.map(card).join(''):n?empty('search','No matches','Try a different search or clear the filters.',`<button class="b" data-a="clear">Clear filters</button>`):empty('users','Your directory is empty','Add a contact or import a JSON backup.',add);
-$('#cnt').textContent=n?`Showing ${r.length} of ${n} contact${n==1?'':'s'}`:'';
+$('#cards').innerHTML=r.length?r.map(card).join(''):tot?empty('search','No matches','Try a different search or clear the filters.',`<button class="b" data-a="clear">Clear filters</button>`):empty(S.v=='priv'?'lock':'users',S.v=='priv'?'No private contacts yet':'Your directory is empty',S.v=='priv'?'Contacts you mark as private are kept here, behind your PIN.':'Add a contact or import a JSON backup.',add);
+$('#cnt').textContent=tot?`Showing ${r.length} of ${tot} contact${tot==1?'':'s'}`:'';
 $$('[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m==S.m))}
-function go(v){S.v=v;$('#dash').hidden=v!='dash';$('#list').hidden=v!='list';$$('[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v==v));scrollTo({top:0,behavior:'smooth'});render()}
+function go(v){if(v=='priv'&&L)return askPin();if(v!='priv')L=true;S.v=v;$('#dash').hidden=v!='dash';$('#list').hidden=v=='dash';$('#lt').textContent=v=='priv'?'Private contacts':'Contacts';$('#lockNow').hidden=v!='priv';$$('[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v==v));scrollTo({top:0,behavior:'smooth'});render()}
 const closeAll=()=>$$('dialog[open]').forEach(d=>d.close());
 function preview(){const s=pend!==undefined?pend:edit&&IM[edit.id];$('#pv').innerHTML=s?`<img class="av" src="${s}" alt="Preview">`:`<div class="av" style="--h:250">${ic('user')}</div>`;$('#rm').hidden=!s}
 function openForm(id){closeAll();edit=C.find(c=>c.id===id)||null;pend=undefined;dupOk=false;$('#ft').textContent=edit?'Edit contact':'New contact';
-$('#fn').value=edit?.name||'';$('#fp').value=edit?.phone||'';$('#fa').value=edit?.address||'';$('#fo').value=edit?.notes||'';$('#fi').value='';
+$('#fn').value=edit?.name||'';$('#fp').value=edit?.phone||'';$('#fa').value=edit?.address||'';$('#fo').value=edit?.notes||'';$('#fpr').checked=edit?!!edit.personal:S.v=='priv';$('#fi').value='';
 ['en','ep','ei'].forEach(i=>$('#'+i).textContent='');$('#dup').hidden=true;$('#sv').textContent=edit?'Save changes':'Save contact';preview();$('#fm').showModal();$('#fn').focus()}
 function proc(f){return new Promise((ok,no)=>{if(!/^image\/(jpeg|png|webp|gif)$/.test(f.type))return no('Please choose a JPG, PNG, WebP or GIF image.');if(f.size>1e7)return no('Image must be smaller than 10 MB.');
 const u=URL.createObjectURL(f),i=new Image();i.onload=()=>{const z=320,s=Math.min(i.width,i.height),k=document.createElement('canvas');k.width=k.height=z;const x=k.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,z,z);x.drawImage(i,(i.width-s)/2,(i.height-s)/2,s,s,0,0,z,z);URL.revokeObjectURL(u);ok(k.toDataURL('image/jpeg',.82))};i.onerror=()=>no('That file could not be read as an image.');i.src=u})}
@@ -185,28 +200,51 @@ $('#rm').onclick=()=>{pend=null;preview()};
 $('#fp').oninput=()=>{dupOk=false;$('#dup').hidden=true;$('#sv').textContent=edit?'Save changes':'Save contact'};
 $('#form').onsubmit=async e=>{e.preventDefault();const name=$('#fn').value.trim(),phone=$('#fp').value.trim(),d=dig(phone);
 $('#en').textContent=name?'':'Full name is required.';const bad=!/^[+()\d][\d\s().-]*$/.test(phone)||d.length<6||d.length>15;$('#ep').textContent=bad?'Enter a valid number (6–15 digits).':'';if(!name||bad)return;
-const dup=C.find(c=>c.id!==edit?.id&&dig(c.phone)===d);
+const dup=C.filter(vis).find(c=>c.id!==edit?.id&&dig(c.phone)===d);
 if(dup&&!dupOk){dupOk=true;$('#dup').textContent=`“${dup.name}” already uses this number. Press Save again to keep both.`;$('#dup').hidden=false;$('#sv').textContent='Save anyway';return}
-const c=edit||{id:uid(),created:Date.now()};Object.assign(c,{name,phone,address:$('#fa').value.trim(),notes:$('#fo').value.trim()});if(!edit)C.push(c);
+const c=edit||{id:uid(),created:Date.now()};Object.assign(c,{name,phone,address:$('#fa').value.trim(),notes:$('#fo').value.trim(),personal:$('#fpr').checked});if(!edit)C.push(c);
 if(pend){IM[c.id]=pend;await imgPut(c.id,pend)}else if(pend===null){delete IM[c.id];await imgDel(c.id)}
-if(lsSet(LS,C)){$('#fm').close();render();toast(edit?'Contact updated':'Contact added')}};
+if(lsSet(LS,C)){$('#fm').close();render();toast(c.personal&&S.v!='priv'?'Saved to Private contacts':edit?'Contact updated':'Contact added')}};
 function openView(id){const c=C.find(x=>x.id===id);if(!c)return;const row=(i,l,v)=>`<div class="rw">${ic(i)}<div><small>${l}</small><span>${v}</span></div></div>`;
 $('#dc').dataset.id=id;$('#dc').innerHTML=`${av(c,'xl')}<h2>${esc(c.name)}</h2><div class="rows">${row('phone','Phone',`<a href="tel:${esc(c.phone)}">${esc(c.phone)}</a>`)}${row('pin','Address',esc(c.address)||'Not provided')}${c.notes?row('list','Notes',esc(c.notes)):''}${row('clock','Added',fmt(c.created))}</div><div class="df"><button class="b" data-a="edit">${ic('edit')}Edit</button><button class="b dg" data-a="del">${ic('trash')}Delete</button></div>`;$('#dm').showModal()}
 function ask(t,p,l,f){closeAll();$('#ct').textContent=t;$('#cp').textContent=p;$('#cy').textContent=l;cb=f;$('#cm').showModal()}
 $('#cy').onclick=()=>{$('#cm').close();cb&&cb()};
 function delAsk(id){const c=C.find(x=>x.id===id);if(c)ask('Delete this contact?',`“${c.name}” will be permanently removed from this device.`,'Delete',async()=>{C=C.filter(x=>x.id!==id);delete IM[id];await imgDel(id);lsSet(LS,C);render();toast('Contact deleted')})}
 const dl=(n,t,ty)=>{try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:ty}));a.download=n;a.click()}catch{}};
-$('#xj').onclick=()=>{const t=JSON.stringify({app:'directory',version:1,exported:new Date().toISOString(),contacts:C.map(c=>({...c,image:IM[c.id]||null}))});$('#io').value=t;dl('contacts-backup.json',t,'application/json');toast(`Exported ${C.length} contacts as JSON`)};
-$('#xc').onclick=()=>{const q=v=>`"${String(v??'').replace(/"/g,'""')}"`,t='\ufeff'+['Name,Phone,Address,Notes,Added',...C.map(c=>[c.name,c.phone,c.address,c.notes,new Date(c.created).toISOString()].map(q).join(','))].join('\r\n');$('#io').value=t;dl('contacts.csv',t,'text/csv');toast(`Exported ${C.length} contacts as CSV`)};
+$('#xj').onclick=()=>{const t=JSON.stringify({app:'directory',version:1,exported:new Date().toISOString(),contacts:C.filter(vis).map(c=>({...c,image:IM[c.id]||null}))});$('#io').value=t;dl('contacts-backup.json',t,'application/json');toast(`Exported ${C.filter(vis).length} contacts as JSON`)};
+$('#xc').onclick=()=>{const q=v=>`"${String(v??'').replace(/"/g,'""')}"`,t='\ufeff'+['Name,Phone,Address,Notes,Added',...C.filter(vis).map(c=>[c.name,c.phone,c.address,c.notes,new Date(c.created).toISOString()].map(q).join(','))].join('\r\n');$('#io').value=t;dl('contacts.csv',t,'text/csv');toast(`Exported ${C.filter(vis).length} contacts as CSV`)};
 $('#cp2').onclick=async()=>{const t=$('#io');t.select();try{await navigator.clipboard.writeText(t.value);toast('Copied to clipboard')}catch{toast('Press Ctrl/Cmd+C to copy the selected text')}};
 function imp(t){try{let j=JSON.parse(t);j=Array.isArray(j)?j:j.contacts;if(!Array.isArray(j))throw 0;let a=0,s=0;const have=new Set(C.map(c=>dig(c.phone)));
 for(const x of j){const name=String(x.name||'').trim().slice(0,80),phone=String(x.phone||'').trim().slice(0,24),d=dig(phone);if(!name||d.length<6||have.has(d)){s++;continue}have.add(d);const id=uid();
-C.push({id,name,phone,address:String(x.address||'').slice(0,240),notes:String(x.notes||'').slice(0,500),created:+x.created||Date.now()});
+C.push({id,name,phone,address:String(x.address||'').slice(0,240),notes:String(x.notes||'').slice(0,500),created:+x.created||Date.now(),personal:!!x.personal});
 if(/^data:image\/(jpeg|png|webp|gif);base64,/.test(x.image||'')){IM[id]=x.image;imgPut(id,x.image)}a++}
 lsSet(LS,C);render();toast(`Imported ${a} contact${a==1?'':'s'}${s?`, skipped ${s} duplicate or invalid`:''}`)}catch{toast('That doesn’t look like a valid JSON backup','err')}}
 $('#xi').onclick=()=>imp($('#io').value);
 $('#imf').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>imp(r.result);r.onerror=()=>toast('Could not read that file','err');r.readAsText(f);e.target.value=''};
-$('#ca').onclick=()=>ask('Clear all contacts?','This permanently deletes every contact and photo on this device. Export a backup first if you might need them.','Clear everything',async()=>{C=[];IM={};await imgClr();lsSet(LS,C);render();toast('All contacts cleared')});
+$('#ca').onclick=()=>ask('Clear all contacts?','This permanently deletes every contact and photo on this device. Export a backup first if you might need them.','Clear everything',async()=>{for(const c of C.filter(vis)){delete IM[c.id];await imgDel(c.id)}C=C.filter(c=>!vis(c));lsSet(LS,C);render();toast('All contacts cleared')});
+const LK='dir.lock.v1';let L=false,pwh=null,pmode='';
+const sha=async s=>{try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch{let h=5381;for(const c of s)h=(h*33^c.charCodeAt(0))>>>0;return 'x'+h}};
+const vis=c=>!(L&&c.personal);
+function lockUi(){const t=(L?'Show':'Hide')+' personal';$('#lk').innerHTML=ic(L?'lock':'unlock')+`<span class="hd">${t}</span>`;$('#lk').title=t;$('#lk').setAttribute('aria-label',t)}
+function openPw(m){pmode=m;const set=m=='set';$('#pt').textContent=set?(pwh?'Change password':'Set a password'):'Show personal contacts';$('#pd').textContent=set?'Personal contacts stay hidden until this password is entered. It is stored only on this device and can’t be recovered if you forget it.':'Enter your password to show personal contacts.';$('#p2w').hidden=!set;$('#p1').value=$('#p2').value='';$('#pe').textContent='';$('#pb').textContent=set?(pwh?'Save password':'Save & hide'):'Unlock';$('#pm').showModal();$('#p1').focus()}
+$('#pf').onsubmit=async e=>{e.preventDefault();const a=$('#p1').value;
+if(pmode=='set'){if(a.length<4)return $('#pe').textContent='Use at least 4 characters.';if(a!==$('#p2').value)return $('#pe').textContent='Passwords don’t match.';const ch=!!pwh,s=uid();pwh={s,h:await sha(s+a)};lsSet(LK,pwh);L=!ch;$('#pm').close();lockUi();render();toast(ch?'Password changed':'Personal contacts hidden')}
+else{if(await sha(pwh.s+a)!==pwh.h){$('#pe').textContent='Incorrect password.';$('#p1').select();return}L=false;$('#pm').close();lockUi();render();toast('Personal contacts visible')}};
+const PK='dir.pin.v1';let pmd='',att=0,until=lsGet('dir.lockout.v1',0),act=Date.now();
+const kdf=async(p,s)=>{try{const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(p),'PBKDF2',false,['deriveBits']),b=await crypto.subtle.deriveBits({name:'PBKDF2',salt:new TextEncoder().encode(s),iterations:150000,hash:'SHA-256'},k,256);return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch{return sha(s+p)}};
+function askPin(m){closeAll();pmd=m||(pwh?'unlock':'set');const set=pmd=='set',ch=pmd=='change';
+$('#pt').textContent=ch?'Change PIN':set?'Create a 5-digit PIN':'Private contacts';
+$('#pd').textContent=set?'Choose a PIN to protect your private contacts. It is stored only on this device and can’t be recovered if you forget it.':ch?'Enter your current PIN, then choose a new one.':'Enter your 5-digit PIN to continue.';
+$('#p0w').hidden=!ch;$('#p2w').hidden=pmd=='unlock';$('#l1').textContent=ch?'New PIN':'PIN';['p0','p1','p2'].forEach(i=>$('#'+i).value='');$('#pe').textContent='';$('#pb').textContent=ch?'Save PIN':set?'Create PIN':'Unlock';$('#pm').showModal();(ch?$('#p0'):$('#p1')).focus()}
+['p0','p1','p2'].forEach(i=>$('#'+i).oninput=e=>e.target.value=e.target.value.replace(/\D/g,''));
+$('#pf').onsubmit=async e=>{e.preventDefault();const E=m=>$('#pe').textContent=m,a=$('#p1').value,ok=p=>/^\d{5}$/.test(p);
+if(pmd!='set'){if(Date.now()<until)return E(`Too many attempts. Try again in ${Math.ceil((until-Date.now())/1e3)}s.`);const f=pmd=='change'?'#p0':'#p1',cur=$(f).value;
+if(!ok(cur)||await kdf(cur,pwh.s)!==pwh.h){if(++att>=5){att=0;until=Date.now()+3e4;lsSet('dir.lockout.v1',until);return E('Too many attempts. Locked for 30 seconds.')}$(f).select();return E('Incorrect PIN.')}att=0}
+if(pmd!='unlock'){if(!ok(a))return E('The new PIN must be exactly 5 digits.');if(a!==$('#p2').value)return E('PINs don’t match.');const s=uid();pwh={s,h:await kdf(a,s)};lsSet(PK,pwh)}
+$('#pm').close();if(pmd=='change')toast('PIN changed');else{L=false;go('priv');toast(pmd=='set'?'PIN created. Private section unlocked':'Private section unlocked')}};
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&S.v=='priv')go('dash')});
+['click','keydown','touchstart'].forEach(t=>addEventListener(t,()=>act=Date.now()));
+setInterval(()=>{if(S.v=='priv'&&Date.now()-act>12e4){go('dash');toast('Private section locked after inactivity')}},5e3);
 const eff=()=>document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
 const themeIc=()=>$('#th').innerHTML=ic(eff()=='dark'?'sun':'moon');
 $('#th').onclick=()=>{const t=eff()=='dark'?'light':'dark';document.documentElement.dataset.theme=t;themeIc();lsSet(PF,{...lsGet(PF,{}),t})};
@@ -214,25 +252,7 @@ const doQS=()=>{S.q=$('#qs').value;$('#q').value=S.q;go('list')};$('#qb').onclic
 $('#q').oninput=e=>{S.q=e.target.value;render()};$('#f').onchange=e=>{S.f=e.target.value;render()};$('#s').onchange=e=>{S.s=e.target.value;render()};
 document.addEventListener('click',e=>{if(e.target.matches('dialog'))return e.target.close();const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a,id=t.closest('[data-id]')?.dataset.id;
 ({add:()=>openForm(),view:()=>openView(id),edit:()=>openForm(id),del:()=>delAsk(id),go:()=>go(t.dataset.v),close:()=>t.closest('dialog').close(),data:()=>{closeAll();$('#st').textContent='';$('#mm').showModal()},
-mode:()=>{S.m=t.dataset.m;lsSet(PF,{...lsGet(PF,{}),m:S.m});render()},clear:()=>{S.q='';S.f='all';$('#q').value='';$('#f').value='all';render()}})[a]?.()});
+settings:()=>{closeAll();$('#cpb').textContent=pwh?'Change PIN':'Set PIN';$('#sm').showModal()},chpin:()=>askPin(pwh?'change':'set'),lockp:()=>go('dash'),mode:()=>{S.m=t.dataset.m;lsSet(PF,{...lsGet(PF,{}),m:S.m});render()},clear:()=>{S.q='';S.f='all';$('#q').value='';$('#f').value='all';render()}})[a]?.()});
 (async()=>{$$('[data-i]').forEach(e=>e.innerHTML=ic(e.dataset.i));const pf=lsGet(PF,{});if(pf.m)S.m=pf.m;if(pf.t)document.documentElement.dataset.theme=pf.t;themeIc();
-C=lsGet(LS,[]);if(!Array.isArray(C))C=[];db=await idb();await Promise.all(C.map(async c=>{const d=await tx('readonly',s=>s.get(c.id));if(d)IM[c.id]=d}));go('dash')})();
-</script></body></html>Marking a contact as personal
-
-The add and edit form has a new “Personal contact” checkbox.
-When personal contacts are visible, those cards show a small lock “Personal” tag.
-
-Locking and unlocking
-
-First click: you set a password (at least 4 characters, entered twice). Personal contacts are hidden straight away.
-While locked: the button changes to Show personal, and clicking it asks for the password. Hidden contacts disappear from the stats, recent list, search results and duplicate-number warnings. A personal contact you save while locked is hidden immediately, and a message tells you so.
-While unlocked: one click hides them again with no password needed.
-After a reload: the page opens locked.
-Changing the password: this is in the Backup & data dialog and only appears while you’re unlocked.
-
-Backup and clear-all
-
-While locked, exports and “Clear all contacts” only cover the contacts you can see.
-JSON exports keep the personal flag, and imports restore it.
-
-How secure it is: this hides personal contacts from anyone using the page, but it doesn’t encrypt them. Someone with technical skill could still read the browser’s stored data. The password is saved as a salted hash and can’t be recovered if you forget it.
+C=lsGet(LS,[]);if(!Array.isArray(C))C=[];pwh=lsGet(PK,null);L=true;db=await idb();await Promise.all(C.map(async c=>{const d=await tx('readonly',s=>s.get(c.id));if(d)IM[c.id]=d}));go('dash')})();
+</script></body></html>
