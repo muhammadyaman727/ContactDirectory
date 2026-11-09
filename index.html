@@ -83,18 +83,38 @@ footer{margin-top:56px;padding:26px 0;border-top:1px solid var(--bd);color:var(-
 .stat,.card{box-shadow:none;border-radius:16px}.card:hover{box-shadow:var(--sh)}.si{background:var(--bg);color:var(--mu);border-radius:10px}.av{box-shadow:none}.sh h2{font-size:18px}
 .tag{display:inline-flex;align-items:center;gap:4px;margin-left:8px;padding:2px 8px;border-radius:999px;background:var(--acs);color:var(--ac);font-size:11px;font-weight:600;line-height:1.6;vertical-align:middle}.tag .ic{width:12px;height:12px}.chk{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--bd);border-radius:12px;cursor:pointer}.chk input{margin-top:4px;accent-color:var(--ac)}.chk span{font-weight:600;font-size:14px}.chk small{display:block;font-weight:400;color:var(--mu);font-size:12.5px}
 .pin{text-align:center;letter-spacing:.6em;font-size:22px;font-weight:600;padding:12px 8px 12px calc(8px + .6em)}.lh{display:flex;align-items:center;justify-content:space-between;margin-top:34px}.lh h2{font-size:22px;letter-spacing:-.02em}.lh+.tb{margin-top:16px}.set{align-items:center;margin-bottom:10px}.set>div{flex:1}.set b{font-size:14.5px}.set .b{margin-left:auto}
+:root{--ac:#2563eb;--ac2:#06b6d4;--acs:#e0f2fe;--g:linear-gradient(135deg,#2563eb,#06b6d4)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--ac:#38bdf8;--acs:#0b2a40}}:root[data-theme="dark"]{--ac:#38bdf8;--acs:#0b2a40}
+dialog{margin:auto;inset:0;border-radius:26px;border:1px solid var(--bd)}dialog[open]{animation:pop2 .32s cubic-bezier(.2,.9,.3,1.15)}dialog[open]::before{content:"";display:block;height:5px;background:var(--g)}dialog::backdrop{background:rgba(6,16,36,.55);backdrop-filter:blur(7px)}
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}.bg i{position:absolute;display:block;border-radius:50%;filter:blur(80px);opacity:.45;animation:float 20s ease-in-out infinite}.bg i:nth-child(1){width:440px;height:440px;background:#2563eb;top:-140px;right:-100px}.bg i:nth-child(2){width:380px;height:380px;background:#06b6d4;bottom:-120px;left:-120px;animation-delay:-8s}.bg i:nth-child(3){width:220px;height:220px;border:2px solid #06b6d4;background:none;filter:none;border-radius:38% 62% 55% 45%;top:38%;left:58%;opacity:.25;animation:spin 40s linear infinite}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .bg i{opacity:.22}}:root[data-theme="dark"] .bg i{opacity:.22}
+@keyframes float{50%{transform:translate(30px,40px) scale(1.08)}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes ping{from{opacity:.7;transform:scale(1)}to{opacity:0;transform:scale(1.55)}}@keyframes pop2{from{opacity:0;transform:translateY(18px) scale(.93)}}@keyframes bob{50%{transform:translateY(-4px)}}
+.logo,.b.pri,.fab,.me{background:var(--g)}.b.pri{box-shadow:0 8px 18px -8px rgba(6,182,212,.75)}.logo{box-shadow:0 6px 16px -4px rgba(6,182,212,.7)}.tab.on{background:var(--g);color:#fff}
+.hero{margin:30px 0 8px;padding:28px;border-radius:26px;background:var(--g);color:#fff;position:relative;overflow:hidden;box-shadow:0 24px 50px -24px rgba(37,99,235,.65)}.hero>*{position:relative;z-index:1}.hero::before{content:"";position:absolute;width:280px;height:280px;border-radius:50%;right:-70px;top:-100px;background:rgba(255,255,255,.14)}.hero::after{content:"";position:absolute;width:170px;height:170px;border-radius:38% 62% 55% 45%;right:130px;bottom:-80px;border:2px solid rgba(255,255,255,.35);animation:spin 30s linear infinite}
+.hero .b.pri{background:#fff;color:#0369a1;box-shadow:none}.hero .b.ghost{color:#fff;border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.1)}.hero .b.ghost:hover{background:rgba(255,255,255,.22);color:#fff}.hero .row{margin-top:0}.qs{background:var(--card);border-color:transparent}.qs .b.pri{background:var(--g);color:#fff}
+.stats{margin-top:22px}.stat{position:relative;overflow:hidden;background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(10px);animation:rise .5s both}.stat:nth-child(2){animation-delay:.06s}.stat:nth-child(3){animation-delay:.12s}.stat:nth-child(4){animation-delay:.18s}.stat::after{content:"";position:absolute;right:-26px;top:-26px;width:96px;height:96px;border-radius:50%;background:var(--g);opacity:.09}
+.si{background:var(--g);color:#fff;box-shadow:0 8px 16px -8px #06b6d4}.empty .si{box-shadow:0 14px 26px -10px #06b6d4}
+.av{background:linear-gradient(135deg,hsl(calc(190 + var(--h,200) * .12) 85% 50%),hsl(calc(205 + var(--h,200) * .1) 85% 42%));box-shadow:0 0 0 3px var(--card),0 0 0 5px color-mix(in srgb,#06b6d4 55%,transparent)}
+.card{position:relative;overflow:hidden;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(8px)}.card::before{content:"";position:absolute;inset:0 0 auto;height:3px;background:var(--g);transform:scaleX(0);transform-origin:left;transition:.35s}.card:hover::before{transform:scaleX(1)}.card:hover{border-color:#38bdf8;box-shadow:0 18px 40px -20px rgba(37,99,235,.5)}
+.fab{position:fixed;box-shadow:0 14px 30px -10px rgba(6,182,212,.8)}.fab::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #22d3ee;animation:ping 2.4s ease-out infinite}
+.me{width:38px;height:38px;border-radius:50%;border:0;padding:0;cursor:pointer;color:#fff;font-weight:700;font-size:14px;display:grid;place-items:center;overflow:hidden;box-shadow:0 0 0 2px var(--card),0 0 0 4px #22d3ee66;transition:.2s}.me.on,.me:hover{box-shadow:0 0 0 2px var(--card),0 0 0 4px #22d3ee}.me img{width:100%;height:100%;object-fit:cover}.me .ic{width:18px;height:18px}
+.shield{width:64px;height:64px;border-radius:20px;background:var(--g);color:#fff;display:grid;place-items:center;margin:26px auto 0;box-shadow:0 14px 28px -10px #06b6d4;animation:bob 3s ease-in-out infinite}.shield .ic{width:28px;height:28px}#pm .dh{justify-content:center;padding-top:14px;position:relative}#pm .dh .b{position:absolute;right:14px;top:6px}#pm .db{text-align:center}#pm .fld{text-align:left}
+.sw2{position:relative;align-items:center;background:var(--bg)}.sw2 input{position:absolute;opacity:0}.sw2 .tx{flex:1}.sw2 .ico{width:36px;height:36px;border-radius:10px;background:var(--acs);color:var(--ac);display:grid;place-items:center;flex:none}.tg{width:46px;height:27px;border-radius:99px;background:var(--bd);position:relative;flex:none;transition:.25s}.tg::after{content:"";position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:.25s}.sw2 input:checked+.tg{background:var(--g)}.sw2 input:checked+.tg::after{transform:translateX(19px)}.sw2 input:focus-visible+.tg{outline:2px solid var(--ac);outline-offset:2px}
+.sgrid{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;margin-top:16px;align-items:start}.col{display:grid;gap:18px}.pnl{background:color-mix(in srgb,var(--card) 85%,transparent);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:22px;padding:22px;animation:rise .45s both}.pnl h3{font-size:16px;letter-spacing:-.01em}.pnl>p{font-size:13.5px;margin:2px 0 14px}.prow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--bd)}.prow small{display:block;color:var(--mu);font-size:12.5px}.prow b{font-size:14.5px}.seg button{font-weight:600;font-size:13px;font-family:inherit}
+@media(max-width:860px){.sgrid{grid-template-columns:1fr}}@media(max-width:720px){.hero{padding:20px;border-radius:22px;margin-top:20px}}
 main{padding-bottom:104px}
 .fab{position:fixed;right:22px;bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:25;width:56px;height:56px;border-radius:50%;border:0;background:var(--ac);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 26px -8px color-mix(in srgb,var(--ac) 75%,#000),0 2px 6px rgba(0,0,0,.18);transition:.2s}.fab:hover{transform:scale(1.07)}.fab:active{transform:scale(.95)}.fab .ic{width:24px;height:24px;stroke-width:2.2}
 #toasts{left:50%;right:auto;translate:-50% 0;align-items:center;bottom:calc(24px + env(safe-area-inset-bottom,0px))}
 @media(max-width:720px){.fab{right:16px;bottom:calc(78px + env(safe-area-inset-bottom,0px))}#toasts{left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px))}.hero{margin-top:28px}}
 </style></head><body>
+<div class="bg" aria-hidden="true"><i></i><i></i><i></i></div>
 <header class="top"><div class="wrap bar">
 <div class="brand"><span class="logo" data-i="users"></span>Directory</div>
 <nav class="tabs"><button class="b tab" data-a="go" data-v="dash">Dashboard</button><button class="b tab" data-a="go" data-v="list">Contacts</button><button class="b tab" data-a="go" data-v="priv">Private</button></nav>
 <div class="sp"></div>
 
 <button class="b ghost" id="th" aria-label="Toggle theme"></button>
-<button class="b ghost" data-a="settings" aria-label="Settings" title="Settings"><span data-i="cog"></span></button>
+<button class="me" id="me" data-a="go" data-v="set" aria-label="My profile and settings" title="Profile &amp; settings"></button>
 
 </div></header>
 
@@ -118,10 +138,34 @@ main{padding-bottom:104px}
 <div class="cnt" id="cnt"></div>
 <div class="cards grid" id="cards"></div>
 </section>
+<section id="set" hidden>
+<div class="lh"><h2>Settings</h2></div>
+<div class="sgrid">
+<form class="pnl" id="mf" novalidate>
+<h3>My profile</h3><p class="mu">Update the details saved for you on this device.</p>
+<div class="fld ph"><div id="mpv"></div><div><label class="b sm" for="mi"><span data-i="upload"></span>Change photo</label><input id="mi" type="file" accept="image/jpeg,image/png,image/webp,image/gif"> <button type="button" class="b sm ghost dg" id="mrm">Remove</button><div class="er" id="mei"></div></div></div>
+<div class="fld"><label for="mn">Full name</label><input class="in" id="mn" maxlength="80" autocomplete="off"></div>
+<div class="fld"><label for="mem">Email</label><input class="in" id="mem" type="email" maxlength="120"></div>
+<div class="fld"><label for="mph">Phone</label><input class="in" id="mph" type="tel" maxlength="24"></div>
+<div class="fld"><label for="mro">Role or organization</label><input class="in" id="mro" maxlength="80"></div>
+<div class="fld"><label for="mbi">About me</label><textarea class="in" id="mbi" maxlength="240"></textarea></div>
+<div class="er" id="mer"></div>
+<div class="df" style="justify-content:flex-start"><button class="b pri">Save profile</button></div>
+</form>
+<div class="col">
+<div class="pnl"><h3>Appearance</h3><p class="mu">Make the app feel like yours.</p>
+<div class="prow"><div><b>Theme</b><small>Light, dark or follow your device</small></div><div class="seg"><button data-a="theme" data-t="light">Light</button><button data-a="theme" data-t="dark">Dark</button><button data-a="theme" data-t="system">Auto</button></div></div>
+<div class="prow"><div><b>Contact layout</b><small>Default view for your contacts</small></div><div class="seg"><button data-a="mode" data-m="grid" aria-label="Grid view" data-i="grid"></button><button data-a="mode" data-m="list" aria-label="List view" data-i="list"></button></div></div></div>
+<div class="pnl"><h3>Security</h3><p class="mu">Protect your private contacts.</p>
+<div class="prow"><div><b>Private PIN</b><small>5-digit PIN for the Private section</small></div><button type="button" class="b sm" id="cpb2" data-a="chpin">Change PIN</button></div>
+<div class="prow"><div><b>Auto-lock</b><small>Lock Private after inactivity</small></div><select class="in" id="al" style="width:auto"><option value="60000">1 minute</option><option value="120000">2 minutes</option><option value="300000">5 minutes</option><option value="600000">10 minutes</option></select></div></div>
+<div class="pnl"><h3>Data</h3><p class="mu">Your contacts stay on this device.</p>
+<div class="prow"><div><b>Backup &amp; restore</b><small>Export, import or clear contacts</small></div><button type="button" class="b sm" data-a="data">Open</button></div></div>
+</div></div></section>
 </main>
 <footer><div class="wrap">Your data never leaves this browser. Contacts live in Local Storage and photos in IndexedDB.</div></footer>
 
-<nav class="bn"><button data-a="go" data-v="dash"><span data-i="home"></span>Home</button><button data-a="go" data-v="list"><span data-i="users"></span>Contacts</button><button data-a="go" data-v="priv"><span data-i="lock"></span>Private</button></nav>
+<nav class="bn"><button data-a="go" data-v="dash"><span data-i="home"></span>Home</button><button data-a="go" data-v="list"><span data-i="users"></span>Contacts</button><button data-a="go" data-v="priv"><span data-i="lock"></span>Private</button><button data-a="go" data-v="set"><span data-i="cog"></span>Settings</button></nav>
 <button class="fab" data-a="add" aria-label="Add new contact" title="Add new contact"><span data-i="plus"></span></button>
 <div id="toasts" aria-live="polite"></div>
 
@@ -132,7 +176,7 @@ main{padding-bottom:104px}
 <div class="warn" id="dup" hidden></div>
 <div class="fld"><label for="fa">Complete address</label><textarea class="in" id="fa" maxlength="240"></textarea></div>
 <div class="fld"><label for="fo">Notes (optional)</label><textarea class="in" id="fo" maxlength="500"></textarea></div>
-<label class="chk"><input type="checkbox" id="fpr"><span>Private contact<small>Kept in the Private section, protected by your PIN</small></span></label>
+<label class="chk sw2"><span class="ico" data-i="lock"></span><span class="tx">Save as private contact<small>Optional. Kept in the Private section behind your PIN.</small></span><input type="checkbox" id="fpr" role="switch"><i class="tg"></i></label>
 <div class="df"><button type="button" class="b" data-a="close">Cancel</button><button class="b pri" id="sv">Save contact</button></div></div></form></dialog>
 
 <dialog id="dm"><div class="dh"><h2>Contact details</h2><button class="b ghost sm" data-a="close" aria-label="Close"><span data-i="x"></span></button></div><div class="db det" id="dc"></div></dialog>
@@ -142,7 +186,7 @@ main{padding-bottom:104px}
 <dialog id="sm"><div class="dh"><h2>Settings</h2><button class="b ghost sm" data-a="close" aria-label="Close"><span data-i="x"></span></button></div><div class="db">
 <div class="rw set"><span data-i="lock"></span><div><b>Private PIN</b><small>5-digit PIN that protects the Private section</small></div><button class="b sm" id="cpb" data-a="chpin"></button></div>
 <div class="rw set"><span data-i="db"></span><div><b>Backup &amp; data</b><small>Export, import or clear contacts</small></div><button class="b sm" data-a="data">Open</button></div></div></dialog>
-<dialog id="pm"><form id="pf" novalidate><div class="dh"><h2 id="pt"></h2><button type="button" class="b ghost sm" data-a="close" aria-label="Close"><span data-i="x"></span></button></div><div class="db"><p class="mu" id="pd" style="margin:0 0 14px"></p>
+<dialog id="pm"><form id="pf" novalidate><div class="shield"><span data-i="lock"></span></div><div class="dh"><h2 id="pt"></h2><button type="button" class="b ghost sm" data-a="close" aria-label="Close"><span data-i="x"></span></button></div><div class="db"><p class="mu" id="pd" style="margin:0 0 14px"></p>
 <div class="fld" id="p0w" hidden><label for="p0">Current PIN</label><input class="in pin" id="p0" type="password" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="•••••"></div>
 <div class="fld"><label for="p1" id="l1">PIN</label><input class="in pin" id="p1" type="password" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="•••••"></div>
 <div class="fld" id="p2w"><label for="p2">Confirm PIN</label><input class="in pin" id="p2" type="password" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="•••••"></div>
@@ -174,7 +218,7 @@ const hue=n=>[...n].reduce((a,c)=>a+c.charCodeAt(0),0)*7%360;
 const av=(c,x='')=>IM[c.id]?`<img class="av ${x}" src="${IM[c.id]}" alt="${esc(c.name)}">`:`<div class="av ${x}" style="--h:${hue(c.name)}">${esc(ini(c.name))}</div>`;
 const fmt=t=>new Date(t).toLocaleDateString(undefined,{dateStyle:'medium'});
 function toast(m,t='ok'){if($('#mm').open)$('#st').textContent=m;const e=document.createElement('div');e.className='toast '+t;e.innerHTML=ic(t=='ok'?'check':'x')+`<span>${esc(m)}</span>`;$('#toasts').append(e);setTimeout(()=>{e.classList.add('out');setTimeout(()=>e.remove(),300)},3200)}
-const card=c=>`<article class="card" data-id="${c.id}">${av(c)}<div class="info"><h3>${esc(c.name)}${c.personal?`<span class="tag">${ic('lock')}Personal</span>`:''}</h3><p>${ic('phone')}<span>${esc(c.phone)}</span></p><p>${ic('pin')}<span>${esc(c.address||'No address added')}</span></p></div><div class="btns"><button class="b sm" data-a="view">${ic('eye')}View Details</button><button class="b sm ghost" data-a="edit" aria-label="Edit ${esc(c.name)}">${ic('edit')}</button><button class="b sm ghost dg" data-a="del" aria-label="Delete ${esc(c.name)}">${ic('trash')}</button></div></article>`;
+const card=(c,i=0)=>`<article class="card" style="animation-delay:${Math.min(i,10)*45}ms" data-id="${c.id}">${av(c)}<div class="info"><h3>${esc(c.name)}${c.personal?`<span class="tag">${ic('lock')}Personal</span>`:''}</h3><p>${ic('phone')}<span>${esc(c.phone)}</span></p><p>${ic('pin')}<span>${esc(c.address||'No address added')}</span></p></div><div class="btns"><button class="b sm" data-a="view">${ic('eye')}View Details</button><button class="b sm ghost" data-a="edit" aria-label="Edit ${esc(c.name)}">${ic('edit')}</button><button class="b sm ghost dg" data-a="del" aria-label="Delete ${esc(c.name)}">${ic('trash')}</button></div></article>`;
 function view(){const q=S.q.trim().toLowerCase(),d=dig(q);let r=C.filter(c=>S.v=='priv'?c.personal:!c.personal).filter(c=>!q||c.name.toLowerCase().includes(q)||c.address.toLowerCase().includes(q)||c.phone.toLowerCase().includes(q)||(d&&dig(c.phone).includes(d)));
 if(S.f=='img')r=r.filter(c=>IM[c.id]);if(S.f=='noimg')r=r.filter(c=>!IM[c.id]);if(S.f=='recent')r=r.filter(c=>Date.now()-c.created<WK);
 return r.sort({az:(a,b)=>a.name.localeCompare(b.name),za:(a,b)=>b.name.localeCompare(a.name),new:(a,b)=>b.created-a.created,old:(a,b)=>a.created-b.created}[S.s])}
@@ -187,7 +231,7 @@ const r=view();$('#cards').className='cards '+S.m;
 $('#cards').innerHTML=r.length?r.map(card).join(''):tot?empty('search','No matches','Try a different search or clear the filters.',`<button class="b" data-a="clear">Clear filters</button>`):empty(S.v=='priv'?'lock':'users',S.v=='priv'?'No private contacts yet':'Your directory is empty',S.v=='priv'?'Contacts you mark as private are kept here, behind your PIN.':'Add a contact or import a JSON backup.',add);
 $('#cnt').textContent=tot?`Showing ${r.length} of ${tot} contact${tot==1?'':'s'}`:'';
 $$('[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m==S.m))}
-function go(v){if(v=='priv'&&L)return askPin();if(v!='priv')L=true;S.v=v;$('#dash').hidden=v!='dash';$('#list').hidden=v=='dash';$('#lt').textContent=v=='priv'?'Private contacts':'Contacts';$('#lockNow').hidden=v!='priv';$$('[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v==v));scrollTo({top:0,behavior:'smooth'});render()}
+function go(v){if(v=='priv'&&L)return askPin();if(v!='priv')L=true;S.v=v;$('#dash').hidden=v!='dash';$('#list').hidden=v!='list'&&v!='priv';$('#set').hidden=v!='set';$('#lt').textContent=v=='priv'?'Private contacts':'Contacts';$('#lockNow').hidden=v!='priv';if(v=='set')fillSet();$$('[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v==v));scrollTo({top:0,behavior:'smooth'});render()}
 const closeAll=()=>$$('dialog[open]').forEach(d=>d.close());
 function preview(){const s=pend!==undefined?pend:edit&&IM[edit.id];$('#pv').innerHTML=s?`<img class="av" src="${s}" alt="Preview">`:`<div class="av" style="--h:250">${ic('user')}</div>`;$('#rm').hidden=!s}
 function openForm(id){closeAll();edit=C.find(c=>c.id===id)||null;pend=undefined;dupOk=false;$('#ft').textContent=edit?'Edit contact':'New contact';
@@ -244,15 +288,28 @@ if(pmd!='unlock'){if(!ok(a))return E('The new PIN must be exactly 5 digits.');if
 $('#pm').close();if(pmd=='change')toast('PIN changed');else{L=false;go('priv');toast(pmd=='set'?'PIN created. Private section unlocked':'Private section unlocked')}};
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&S.v=='priv')go('dash')});
 ['click','keydown','touchstart'].forEach(t=>addEventListener(t,()=>act=Date.now()));
-setInterval(()=>{if(S.v=='priv'&&Date.now()-act>12e4){go('dash');toast('Private section locked after inactivity')}},5e3);
+setInterval(()=>{if(S.v=='priv'&&Date.now()-act>(lsGet(PF,{}).al||12e4)){go('dash');toast('Private section locked after inactivity')}},5e3);
+const MK='dir.profile.v1';let ME=lsGet(MK,{}),mp;
+const renderMe=()=>{$('#me').innerHTML=IM.__me?`<img src="${IM.__me}" alt="Me">`:ME.name?esc(ini(ME.name)):ic('user')};
+function mprev(){const s=mp!==undefined?mp:IM.__me;$('#mpv').innerHTML=s?`<img class="av xl" src="${s}" alt="">`:`<div class="av xl" style="--h:210">${esc(ini($('#mn').value||'Me'))}</div>`;$('#mrm').hidden=!s}
+function fillSet(){mp=undefined;[['mn','name'],['mem','email'],['mph','phone'],['mro','role'],['mbi','bio']].forEach(([i,k])=>$('#'+i).value=ME[k]||'');$('#mer').textContent='';$('#mei').textContent='';$('#al').value=lsGet(PF,{}).al||12e4;$('#cpb2').textContent=pwh?'Change PIN':'Set PIN';mprev()}
+$('#mi').onchange=async e=>{const f=e.target.files[0];if(!f)return;$('#mei').textContent='';try{mp=await proc(f);mprev()}catch(m){$('#mei').textContent=m}e.target.value=''};
+$('#mrm').onclick=()=>{mp=null;mprev()};
+$('#mn').oninput=()=>{if(mp===undefined&&!IM.__me)mprev()};
+$('#al').onchange=e=>{lsSet(PF,{...lsGet(PF,{}),al:+e.target.value});toast('Auto-lock updated')};
+$('#mf').onsubmit=async e=>{e.preventDefault();const n=$('#mn').value.trim(),em=$('#mem').value.trim(),E=m=>$('#mer').textContent=m;
+if(!n)return E('Please enter your name.');if(em&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))return E('Enter a valid email address.');
+ME={name:n,email:em,phone:$('#mph').value.trim(),role:$('#mro').value.trim(),bio:$('#mbi').value.trim()};
+if(mp){IM.__me=mp;await imgPut('__me',mp)}else if(mp===null){delete IM.__me;await imgDel('__me')}
+mp=undefined;E('');if(lsSet(MK,ME)){renderMe();mprev();toast('Profile updated')}};
 const eff=()=>document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
-const themeIc=()=>$('#th').innerHTML=ic(eff()=='dark'?'sun':'moon');
+const themeIc=()=>{$('#th').innerHTML=ic(eff()=='dark'?'sun':'moon');$$('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==(document.documentElement.dataset.theme||'system')))};
 $('#th').onclick=()=>{const t=eff()=='dark'?'light':'dark';document.documentElement.dataset.theme=t;themeIc();lsSet(PF,{...lsGet(PF,{}),t})};
 const doQS=()=>{S.q=$('#qs').value;$('#q').value=S.q;go('list')};$('#qb').onclick=doQS;$('#qs').onkeydown=e=>e.key=='Enter'&&doQS();
 $('#q').oninput=e=>{S.q=e.target.value;render()};$('#f').onchange=e=>{S.f=e.target.value;render()};$('#s').onchange=e=>{S.s=e.target.value;render()};
 document.addEventListener('click',e=>{if(e.target.matches('dialog'))return e.target.close();const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a,id=t.closest('[data-id]')?.dataset.id;
 ({add:()=>openForm(),view:()=>openView(id),edit:()=>openForm(id),del:()=>delAsk(id),go:()=>go(t.dataset.v),close:()=>t.closest('dialog').close(),data:()=>{closeAll();$('#st').textContent='';$('#mm').showModal()},
-settings:()=>{closeAll();$('#cpb').textContent=pwh?'Change PIN':'Set PIN';$('#sm').showModal()},chpin:()=>askPin(pwh?'change':'set'),lockp:()=>go('dash'),mode:()=>{S.m=t.dataset.m;lsSet(PF,{...lsGet(PF,{}),m:S.m});render()},clear:()=>{S.q='';S.f='all';$('#q').value='';$('#f').value='all';render()}})[a]?.()});
+theme:()=>{const v=t.dataset.t;if(v=='system')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=v;lsSet(PF,{...lsGet(PF,{}),t:v=='system'?null:v});themeIc()},chpin:()=>askPin(pwh?'change':'set'),lockp:()=>go('dash'),mode:()=>{S.m=t.dataset.m;lsSet(PF,{...lsGet(PF,{}),m:S.m});render()},clear:()=>{S.q='';S.f='all';$('#q').value='';$('#f').value='all';render()}})[a]?.()});
 (async()=>{$$('[data-i]').forEach(e=>e.innerHTML=ic(e.dataset.i));const pf=lsGet(PF,{});if(pf.m)S.m=pf.m;if(pf.t)document.documentElement.dataset.theme=pf.t;themeIc();
-C=lsGet(LS,[]);if(!Array.isArray(C))C=[];pwh=lsGet(PK,null);L=true;db=await idb();await Promise.all(C.map(async c=>{const d=await tx('readonly',s=>s.get(c.id));if(d)IM[c.id]=d}));go('dash')})();
+C=lsGet(LS,[]);if(!Array.isArray(C))C=[];pwh=lsGet(PK,null);L=true;db=await idb();await Promise.all(C.map(async c=>{const d=await tx('readonly',s=>s.get(c.id));if(d)IM[c.id]=d}));{const d=await tx('readonly',s=>s.get('__me'));if(d)IM.__me=d}renderMe();go('dash')})();
 </script></body></html>
