@@ -176,7 +176,7 @@ main{padding-bottom:104px}
 <div class="prow"><div><b>Contact layout</b><small>Default view for your contacts</small></div><div class="seg"><button data-a="mode" data-m="grid" aria-label="Grid view" data-i="grid"></button><button data-a="mode" data-m="list" aria-label="List view" data-i="list"></button></div></div></div>
 <div class="pnl"><h3>Security</h3><p class="mu">Protect your private contacts.</p>
 <div class="prow"><div><b>Private PIN</b><small>5-digit PIN for the Private section</small></div><button type="button" class="b sm" id="cpb2" data-a="chpin">Change PIN</button></div>
-<div class="prow"><div><b>Auto-lock</b><small>Lock Private after inactivity</small></div><select class="in" id="al" style="width:auto"><option value="60000">1 minute</option><option value="120000">2 minutes</option><option value="300000">5 minutes</option><option value="600000">10 minutes</option></select></div></div>
+<div class="prow"><div><b>Auto-lock</b><small>Lock Private after inactivity</small></div><select class="in" id="al" style="width:auto"><option value="30000">30 seconds</option><option value="60000">1 minute</option><option value="120000">2 minutes</option><option value="300000">5 minutes</option><option value="600000">10 minutes</option></select></div></div>
 <div class="pnl"><h3>Data</h3><p class="mu">Your contacts stay on this device.</p>
 <div class="prow"><div><b>Backup &amp; restore</b><small>Export, import or clear contacts</small></div><button type="button" class="b sm" data-a="data">Open</button></div></div>
 </div></div></section>
@@ -249,7 +249,7 @@ const r=view();$('#cards').className='cards '+S.m;
 $('#cards').innerHTML=r.length?r.map(card).join(''):tot?empty('search','No matches','Try a different search or clear the filters.',`<button class="b" data-a="clear">Clear filters</button>`):empty(S.v=='priv'?'lock':'users',S.v=='priv'?'No private contacts yet':'Your directory is empty',S.v=='priv'?'Contacts you mark as private are kept here, behind your PIN.':'Add a contact or import a JSON backup.',add);
 $('#cnt').textContent=tot?`Showing ${r.length} of ${tot} contact${tot==1?'':'s'}`:'';
 $$('[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m==S.m))}
-function go(v){if(v=='dash')v='list';if(v=='priv'&&L)return askPin();if(v!='priv')L=true;S.v=v;$('#dash').hidden=v!='dash';$('#list').hidden=v!='list'&&v!='priv';$('#set').hidden=v!='set';$('#lt').textContent=v=='priv'?'Private contacts':'Contacts';$('#lockNow').hidden=v!='priv';if(v=='set')fillSet();$$('[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v==v));scrollTo({top:0,behavior:'smooth'});render()}
+function go(v){if(v=='dash')v='list';if(v=='priv'&&L)return askPin();if(v!='priv'){if(S.v=='priv')closeAll();L=true}S.v=v;$('#dash').hidden=v!='dash';$('#list').hidden=v!='list'&&v!='priv';$('#set').hidden=v!='set';$('#lt').textContent=v=='priv'?'Private contacts':'Contacts';$('#lockNow').hidden=v!='priv';if(v=='set')fillSet();$$('[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v==v));scrollTo({top:0,behavior:'smooth'});render()}
 const closeAll=()=>$$('dialog[open]').forEach(d=>d.close());
 function preview(){const s=pend!==undefined?pend:edit&&IM[edit.id];$('#pv').innerHTML=s?`<img class="av" src="${s}" alt="Preview">`:`<div class="av" style="--h:250">${ic('user')}</div>`;$('#rm').hidden=!s}
 function openForm(id){closeAll();edit=C.find(c=>c.id===id)||null;pend=undefined;dupOk=false;$('#ft').textContent=edit?'Edit contact':'New contact';
@@ -298,14 +298,14 @@ function askPin(m){closeAll();pmd=m||(pwh?'unlock':'set');const set=pmd=='set',c
 $('#pt').textContent=ch?'Change PIN':set?'Create a 5-digit PIN':'Private contacts';
 $('#pd').textContent=set?'Choose a PIN to protect your private contacts. It is stored only on this device and can’t be recovered if you forget it.':ch?'Enter your current PIN, then choose a new one.':'Enter your 5-digit PIN to continue.';
 $('#p0w').hidden=!ch;$('#p2w').hidden=pmd=='unlock';$('#l1').textContent=ch?'New PIN':'PIN';['p0','p1','p2'].forEach(i=>$('#'+i).value='');$('#pe').textContent='';$('#pb').textContent=ch?'Save PIN':set?'Create PIN':'Unlock';$('#pm').showModal();(ch?$('#p0'):$('#p1')).focus()}
-['p0','p1','p2'].forEach(i=>$('#'+i).oninput=e=>e.target.value=e.target.value.replace(/\D/g,''));
+['p0','p1','p2'].forEach(i=>$('#'+i).oninput=e=>{e.target.value=e.target.value.replace(/\D/g,'');if(e.target.value.length<5)return;const m=pmd;if(m=='unlock'||(m!='unlock'&&i=='p2'))$('#pf').requestSubmit();else if(i=='p0')$('#p1').focus();else if(i=='p1')$('#p2').focus()});
 $('#pf').onsubmit=async e=>{e.preventDefault();const E=m=>$('#pe').textContent=m,a=$('#p1').value,ok=p=>/^\d{5}$/.test(p);
 if(pmd!='set'){if(Date.now()<until)return E(`Too many attempts. Try again in ${Math.ceil((until-Date.now())/1e3)}s.`);const f=pmd=='change'?'#p0':'#p1',cur=$(f).value;
 if(!ok(cur)||await kdf(cur,pwh.s)!==pwh.h){if(++att>=5){att=0;until=Date.now()+3e4;lsSet('dir.lockout.v1',until);return E('Too many attempts. Locked for 30 seconds.')}$(f).select();return E('Incorrect PIN.')}att=0}
 if(pmd!='unlock'){if(!ok(a))return E('The new PIN must be exactly 5 digits.');if(a!==$('#p2').value)return E('PINs don’t match.');const s=uid();pwh={s,h:await kdf(a,s)};lsSet(PK,pwh)}
 $('#pm').close();if(pmd=='change')toast('PIN changed');else{L=false;go('priv');toast(pmd=='set'?'PIN created. Private section unlocked':'Private section unlocked')}};
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&S.v=='priv')go('dash')});
-['click','keydown','touchstart'].forEach(t=>addEventListener(t,()=>act=Date.now()));
+['click','keydown','touchstart','scroll','mousemove'].forEach(t=>addEventListener(t,()=>act=Date.now()));
 setInterval(()=>{if(S.v=='priv'&&Date.now()-act>(lsGet(PF,{}).al||12e4)){go('dash');toast('Private section locked after inactivity')}},5e3);
 const MK='dir.profile.v1';let ME=lsGet(MK,{}),mp;
 const renderMe=()=>{$('#me').innerHTML=IM.__me?`<img src="${IM.__me}" alt="Me">`:ME.name?esc(ini(ME.name)):ic('user')};
