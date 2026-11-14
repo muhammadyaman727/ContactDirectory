@@ -2,6 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Directory · Contact Manager</title>
+<meta name="theme-color" content="#2563eb"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
 :root{--bg:#f5f6fa;--card:#fff;--tx:#0f172a;--mu:#64748b;--bd:#e4e7ee;--ac:#4f46e5;--ac2:#7c3aed;--acs:#eef0ff;--dg:#e11d48;--sh:0 1px 2px rgba(15,23,42,.05),0 10px 28px -14px rgba(15,23,42,.18);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0e16;--card:#131a26;--tx:#e8ecf3;--mu:#94a3b8;--bd:#232d40;--acs:#1f2150;--ac:#818cf8;--sh:0 10px 28px -14px #000;color-scheme:dark}}
@@ -127,6 +128,7 @@ dialog{margin:auto;inset:0;border-radius:26px;border:1px solid var(--bd)}dialog[
 #list .stat b{font-variant-numeric:tabular-nums;letter-spacing:-.01em}#list .stat{cursor:pointer;user-select:none}
 #list .stat{width:178px;padding:0 10px}#list .stat>div{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:1;min-width:0}#list .stat small{order:1;font-size:11.5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#list .stat b{order:2;font-size:13px;line-height:1.2;min-width:20px;text-align:center;padding:2px 7px;border-radius:99px;background:var(--acs);color:var(--ac)}
 #list .stat{width:204px;padding:0 10px}
+.net{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:5px 11px;border-radius:99px;background:var(--acs);color:var(--ac)}.net i{width:7px;height:7px;border-radius:50%;background:#10b981;box-shadow:0 0 0 3px #10b98133}.net.off{background:color-mix(in srgb,#f59e0b 18%,var(--card));color:var(--tx)}.net.off i{background:#f59e0b;box-shadow:0 0 0 3px #f59e0b33}@media(max-width:720px){.net span{display:none}.net{padding:9px}}
 main{padding-bottom:104px}
 .fab{position:fixed;right:22px;bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:25;width:56px;height:56px;border-radius:50%;border:0;background:var(--ac);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 26px -8px color-mix(in srgb,var(--ac) 75%,#000),0 2px 6px rgba(0,0,0,.18);transition:.2s}.fab:hover{transform:scale(1.07)}.fab:active{transform:scale(.95)}.fab .ic{width:24px;height:24px;stroke-width:2.2}
 #toasts{left:50%;right:auto;translate:-50% 0;align-items:center;bottom:calc(24px + env(safe-area-inset-bottom,0px))}
@@ -137,6 +139,7 @@ main{padding-bottom:104px}
 <div class="brand"><span class="logo" data-i="users"></span>Directory</div>
 <nav class="tabs"><button class="b tab" data-a="go" data-v="list">Contacts</button><button class="b tab" data-a="go" data-v="priv">Private</button></nav>
 <div class="sp"></div>
+<span class="net" id="net"></span>
 
 <button class="b ghost" id="th" aria-label="Toggle theme"></button>
 <button class="me" id="me" data-a="go" data-v="set" aria-label="My profile and settings" title="Profile &amp; settings"></button>
@@ -186,10 +189,11 @@ main{padding-bottom:104px}
 <div class="prow"><div><b>Private PIN</b><small>5-digit PIN for the Private section</small></div><button type="button" class="b sm" id="cpb2" data-a="chpin">Change PIN</button></div>
 <div class="prow"><div><b>Auto-lock</b><small>Lock Private after inactivity</small></div><select class="in" id="al" style="width:auto"><option value="30000">30 seconds</option><option value="60000">1 minute</option><option value="120000">2 minutes</option><option value="300000">5 minutes</option><option value="600000">10 minutes</option></select></div></div>
 <div class="pnl"><h3>Data</h3><p class="mu">Your contacts stay on this device.</p>
-<div class="prow"><div><b>Backup &amp; restore</b><small>Export, import or clear contacts</small></div><button type="button" class="b sm" data-a="data">Open</button></div></div>
+<div class="prow"><div><b>Backup &amp; restore</b><small>Export, import or clear contacts</small></div><button type="button" class="b sm" data-a="data">Open</button></div>
+<div class="prow"><div><b>Works offline</b><small>No internet needed. Contacts save on this device only.</small></div></div></div>
 </div></div></section>
 </main>
-<footer><div class="wrap">Your data never leaves this browser. Contacts live in Local Storage and photos in IndexedDB.</div></footer>
+<footer><div class="wrap">Works online and offline. Your data never leaves this device.</div></footer>
 
 <nav class="bn"><button data-a="go" data-v="list"><span data-i="users"></span>Contacts</button><button data-a="go" data-v="priv"><span data-i="lock"></span>Private</button><button data-a="go" data-v="set"><span data-i="cog"></span>Settings</button></nav>
 <button class="fab" data-a="add" aria-label="Add new contact" title="Add new contact"><span data-i="plus"></span><b>Add contact</b></button>
@@ -329,6 +333,8 @@ ME={name:n,email:em,phone:$('#mph').value.trim(),role:$('#mro').value.trim(),bio
 if(mp){IM.__me=mp;await imgPut('__me',mp)}else if(mp===null){delete IM.__me;await imgDel('__me')}
 mp=undefined;E('');if(lsSet(MK,ME)){renderMe();mprev();toast('Profile updated')}};
 document.addEventListener('keydown',e=>{if((e.key=='Enter'||e.key==' ')&&e.target.matches('.card')){e.preventDefault();openView(e.target.dataset.id)}});
+const netUi=()=>{const o=navigator.onLine,n=$('#net');n.className='net '+(o?'on':'off');n.innerHTML=`<i></i><span>${o?'Online':'Offline'}</span>`;n.title=o?'Online. Everything is also saved on this device.':'Offline. Contacts keep saving on this device.'};
+addEventListener('online',()=>{netUi();toast('Back online')});addEventListener('offline',()=>{netUi();toast('You’re offline. Contacts still save on this device')});
 const eff=()=>document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
 const themeIc=()=>{$('#th').innerHTML=ic(eff()=='dark'?'sun':'moon');$$('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==(document.documentElement.dataset.theme||'system')))};
 $('#th').onclick=()=>{const t=eff()=='dark'?'light':'dark';document.documentElement.dataset.theme=t;themeIc();lsSet(PF,{...lsGet(PF,{}),t})};
@@ -338,5 +344,5 @@ document.addEventListener('click',e=>{if(e.target.matches('dialog'))return e.tar
 ({add:()=>openForm(),view:()=>openView(id),edit:()=>openForm(id),del:()=>delAsk(id),go:()=>go(t.dataset.v),close:()=>t.closest('dialog').close(),data:()=>{closeAll();$('#st').textContent='';$('#mm').showModal()},
 theme:()=>{const v=t.dataset.t;if(v=='system')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=v;lsSet(PF,{...lsGet(PF,{}),t:v=='system'?null:v});themeIc()},chpin:()=>askPin(pwh?'change':'set'),folder:()=>{S.f=S.f==t.dataset.f?'all':t.dataset.f;$('#f').value=S.f;render()},lockp:()=>go('dash'),mode:()=>{S.m=t.dataset.m;lsSet(PF,{...lsGet(PF,{}),m:S.m});render()},clear:()=>{S.q='';S.f='all';$('#q').value='';$('#f').value='all';render()}})[a]?.()});
 (async()=>{$$('[data-i]').forEach(e=>e.innerHTML=ic(e.dataset.i));const pf=lsGet(PF,{});if(pf.m)S.m=pf.m;if(pf.t)document.documentElement.dataset.theme=pf.t;themeIc();
-C=lsGet(LS,[]);if(!Array.isArray(C))C=[];pwh=lsGet(PK,null);L=true;db=await idb();await Promise.all(C.map(async c=>{const d=await tx('readonly',s=>s.get(c.id));if(d)IM[c.id]=d}));{const d=await tx('readonly',s=>s.get('__me'));if(d)IM.__me=d}renderMe();go('dash')})();
+C=lsGet(LS,[]);if(!Array.isArray(C))C=[];pwh=lsGet(PK,null);L=true;db=await idb();await Promise.all(C.map(async c=>{const d=await tx('readonly',s=>s.get(c.id));if(d)IM[c.id]=d}));{const d=await tx('readonly',s=>s.get('__me'));if(d)IM.__me=d}renderMe();netUi();go('dash')})();
 </script></body></html>
